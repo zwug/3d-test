@@ -33,7 +33,10 @@ const Bottle = () => {
 
   const myObjectRef = useRef<Group>(null);
   const containerRef = useRef<Group>(null);
-  const gltf = useLoader(GLTFLoader, "/img/bottle.gltf");
+  const gltf = useLoader(
+    GLTFLoader,
+    `${process.env.PUBLIC_URL}/img/bottle.gltf`
+  );
 
   return (
     <group ref={containerRef}>
