@@ -1,8 +1,19 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Group } from "three";
+import { Html, useProgress } from "@react-three/drei";
+
+function Loader() {
+  const { progress } = useProgress();
+
+  return (
+    <Html center style={{ background: "#ffffff", padding: "40px" }}>
+      {progress} % of textures loaded
+    </Html>
+  );
+}
 
 const Bottle = () => {
   useEffect(() => {
@@ -50,9 +61,11 @@ const Bottle = () => {
 export function BoxScene() {
   return (
     <Canvas style={{ height: "500px", position: "fixed" }}>
-      <ambientLight intensity={0.3} />
-      <directionalLight color='yellow' position={[0, 0, 100]} />
-      <Bottle />
+      <Suspense fallback={<Loader />}>
+        <ambientLight intensity={0.3} />
+        <directionalLight color='yellow' position={[0, 0, 100]} />
+        <Bottle />
+      </Suspense>
     </Canvas>
   );
 }
